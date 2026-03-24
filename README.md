@@ -99,7 +99,7 @@ Due to GitHub file size limits, the following files are hosted on Google Drive:
 - Add joint angle features and relative distances for richer feature engineering
 - Explore LSTM for dynamic signs
 - Deploy as a mobile application
-- Benchmark formally against CNN baseline
+- Benchmark formally against CNN baseline.
 
 ## Medium Articles
 - [Part 1 — Beginner Walkthrough](https://temiloluwaval.medium.com/i-replaced-87-000-images-with-63-numbers-heres-how-i-built-a-sign-language-detector-404f73b3c3aa)
