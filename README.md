@@ -5,6 +5,12 @@
 ![Accuracy](https://img.shields.io/badge/Accuracy-98.43%25-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
+> 🏆 **Submitted to the [2030 AI Challenge](https://the-2030-ai-challenge.devpost.com/)** — Code for Change. Build the Future.  
+> **UN SDG 10: Reduced Inequalities** · **SDG 3: Good Health and Well-being**  
+> Live demo: [ Streamlit URL coming soon ]
+
+---
+
 ## Overview
 A real-time American Sign Language (ASL) alphabet detection system built using MediaPipe hand landmarks and XGBoost. Achieves **98.43% accuracy** across 28 classes (A-Z + space + del) without training on a single raw image.
 
