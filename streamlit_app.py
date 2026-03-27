@@ -7,7 +7,8 @@ from xgboost import XGBClassifier
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import urllib.request
-import os
+import tempfile
+from pathlib import Path
 
 # ─── Page Config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -543,15 +544,22 @@ st.markdown("""
 
 
 # ─── MODEL LOADING ────────────────────────────────────────────────────────────
+
 @st.cache_resource
 def load_detector():
-    if not os.path.exists("hand_landmarker.task"):
-        with st.spinner("Fetching MediaPipe model…"):
-            urllib.request.urlretrieve(
-                "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-                "hand_landmarker.task"
-            )
-    base_options = python.BaseOptions(model_asset_path="hand_landmarker.task")
+    # Streamlit Cloud-friendly: download into a writable cache/temp dir
+    model_url = (
+        "https://storage.googleapis.com/mediapipe-models/hand_landmarker/"
+        "hand_landmarker/float16/1/hand_landmarker.task"
+    )
+    cache_dir = Path(tempfile.gettempdir()) / "sign-detector"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    model_path = cache_dir / "hand_landmarker.task"
+
+    if not model_path.exists():
+        urllib.request.urlretrieve(model_url, str(model_path))
+
+    base_options = python.BaseOptions(model_asset_path=str(model_path))
     options = vision.HandLandmarkerOptions(
         base_options=base_options, num_hands=1,
         min_hand_detection_confidence=0.5,
@@ -563,14 +571,14 @@ def load_detector():
 @st.cache_resource
 def load_model():
     try:
+        base_dir = Path(__file__).resolve().parent
         clf = XGBClassifier()
-        clf.load_model("asl_model_xgb.json")
-        le = joblib.load("label_encoder.pkl")
+        clf.load_model(str(base_dir / "asl_model_xgb.json"))
+        le = joblib.load(str(base_dir / "label_encoder.pkl"))
         return clf, le
     except Exception as e:
         st.error(f"Could not load model files: {e}")
         return None, None
-        
 
 def normalize_landmarks(row):
     landmarks = np.array(row).reshape(21, 3)
@@ -659,8 +667,10 @@ if uploaded_file:
             (0,17),(17,18),(18,19),(19,20),(5,9),(9,13),(13,17)
         ]
         for a, b in connections:
-            ax = int(landmarks[a].x * annotated.shape[1]); ay = int(landmarks[a].y * annotated.shape[0])
-            bx = int(landmarks[b].x * annotated.shape[1]); by = int(landmarks[b].y * annotated.shape[0])
+            ax = int(landmarks[a].x * annotated.shape[1])
+            ay = int(landmarks[a].y * annotated.shape[0])
+            bx = int(landmarks[b].x * annotated.shape[1])
+            by = int(landmarks[b].y * annotated.shape[0])
             cv2.line(annotated, (ax, ay), (bx, by), (0, 180, 160), 1)
 
         with col_ann:
