@@ -15,7 +15,7 @@
 
 ## Overview
 
-Ọwọ AI is an ASL alphabet detection system that achieves **98.43% accuracy across 28 sign classes** — without training on a single raw image. Instead of feeding pixels into a CNN, it extracts 21 hand keypoints via MediaPipe (63 features: x, y, z per landmark), normalizes them relative to the wrist, and classifies the resulting hand shape with XGBoost.
+Ọwọ AI is an ASL alphabet detection system that achieves **98.43% accuracy across 28 sign classes** - without training on a single raw image. Instead of feeding pixels into a CNN, it extracts 21 hand keypoints via MediaPipe (63 features: x, y, z per landmark), normalizes them relative to the wrist, and classifies the resulting hand shape with XGBoost.
 
 Built as an accessibility tool for Nigeria's ~3 million deaf people, using ASL as a practical proxy for Nigerian Sign Language (NSL) due to the absence of publicly available NSL datasets.
 
@@ -28,7 +28,7 @@ Most sign language AI is:
 - Built on pixel-level CNNs that are brittle to lighting and background changes
 - Not accessible to communities in low-bandwidth or low-resource environments
 
-Ọwọ directly addresses all three. Landmark-based inference is skin-tone agnostic by design — it doesn't see pixels, only geometry.
+Ọwọ directly addresses all three. Landmark-based inference is skin-tone agnostic by design and it doesn't see pixels, only geometry.
 
 ---
 
@@ -36,7 +36,7 @@ Most sign language AI is:
 
 ### Why Landmarks Instead of Raw Images?
 
-A CNN trained on 87,000 images learns to recognize pixels. A landmark model learns hand *shape*. That's a fundamentally more generalizable representation — and one that's:
+A CNN trained on 87,000 images learns to recognize pixels. A landmark model learns hand *shape*. That's a fundamentally more generalizable representation and one that's:
 
 - **Faster** — inference on 63 numbers, not 224×224 pixels
 - **Lighter** — XGBoost model is kilobytes, not megabytes
@@ -198,7 +198,6 @@ asl-sign-detection-mediapipe-rf/
 ## Author
 
 **Temiloluwa Valentine**  
-300-Level Computer Science · Nigeria
 
 - GitHub: [@Valentinetemi](https://github.com/Valentinetemi)
 - Medium: [@temiloluwaval](https://temiloluwaval.medium.com)
