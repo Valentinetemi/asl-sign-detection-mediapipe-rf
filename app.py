@@ -17,6 +17,8 @@ if not os.path.exists("hand_landmarker.task"):
         "hand_landmarker.task"
     )
     print("Downloaded!")
+    
+
 
 # Load XGBoost model and label encoder
 from xgboost import XGBClassifier

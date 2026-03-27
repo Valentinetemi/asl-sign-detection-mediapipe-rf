@@ -562,10 +562,15 @@ def load_detector():
 
 @st.cache_resource
 def load_model():
-    clf = XGBClassifier()
-    clf.load_model("asl_model_xgb.json")
-    le = joblib.load("label_encoder.pkl")
-    return clf, le
+    try:
+        clf = XGBClassifier()
+        clf.load_model("asl_model_xgb.json")
+        le = joblib.load("label_encoder.pkl")
+        return clf, le
+    except Exception as e:
+        st.error(f"Could not load model files: {e}")
+        return None, None
+        
 
 def normalize_landmarks(row):
     landmarks = np.array(row).reshape(21, 3)
