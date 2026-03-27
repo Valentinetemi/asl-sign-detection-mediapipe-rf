@@ -494,6 +494,63 @@ html, body, [class*="css"], .stApp {
 
 /* ── DIVIDER ── */
 hr { border-color: var(--line) !important; margin: 2.5rem 0 !important; }
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+@media (max-width: 1024px) {
+  .hero-accent-num { display: none; }
+  .hero-heading { font-size: clamp(3rem, 11vw, 5.2rem); }
+  .result-letter { font-size: 6rem; }
+}
+
+@media (max-width: 768px) {
+  .block-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .topbar { padding: 1rem 0 0.8rem; }
+  .topbar-tag { display: none; }
+  .hero { padding: 2.5rem 0 2rem; }
+  .hero-heading { font-size: clamp(2.4rem, 12vw, 4rem); line-height: 0.98; }
+  .hero-sub { max-width: 100%; font-size: 0.92rem; line-height: 1.6; }
+
+  .stats-row { grid-template-columns: 1fr; margin: 1.6rem 0 2rem; }
+  .stat-cell { padding: 1rem; }
+
+  .result-inner {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+  .result-letter-block { align-items: flex-start; min-width: 0; }
+  .result-letter { font-size: 4.4rem; }
+  .result-verdict { font-size: 0.8rem; }
+
+  .no-hand { padding: 1rem; gap: 0.8rem; }
+
+  .bench-row {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    padding: 0.9rem 1rem;
+  }
+  .bench-score { text-align: left; }
+
+  [data-testid="stHorizontalBlock"] {
+    flex-direction: column !important;
+    gap: 0.8rem !important;
+  }
+  [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+    min-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    padding: 0 !important;
+  }
+
+  .stButton > button {
+    width: 100% !important;
+    padding: 0.7rem 1rem !important;
+    letter-spacing: 0.09em !important;
+  }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -518,7 +575,7 @@ st.markdown("""
   <h1 class="hero-heading">Read every<br><em>hand.</em></h1>
   <p class="hero-sub">
     Upload a hand sign photo. Ọwọ detects the ASL letter and 
-    speaks it aloud — built on <strong>MediaPipe landmarks</strong> + 
+    speaks it aloud — built on <strong>MediaPipe landmarks  </strong> + 
     <strong>XGBoost</strong> with 98.43% accuracy. For Nigeria's Deaf community.
   </p>
 </div>
@@ -617,11 +674,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 samples = {"B":"sampleb.png","C":"samplec.png","L":"samplel.png","V":"samplev.png","W":"samplew.png","I":"samplei.png"}
-cols = st.columns(len(samples))
-for i, (label, path) in enumerate(samples.items()):
-    with cols[i]:
-        st.image(path)
-        st.caption(label)
+sample_items = list(samples.items())
+for row_start in range(0, len(sample_items), 3):
+    cols = st.columns(3)
+    for col, (label, path) in zip(cols, sample_items[row_start:row_start + 3]):
+        with col:
+            st.image(path, use_container_width=True)
+            st.caption(label)
 
 st.markdown("<div style='height:2rem'></div>", unsafe_allow_html=True)
 
